@@ -1,0 +1,14 @@
+{
+  "name": "AsyncValidator",
+  "version": "0.0.1",
+  "description": "Async validator for mobile form ",
+  "repository": {
+    "url": "git@github.com:slowsnail/AsyncValidator.git",
+    "type": "git"
+  },
+  "author": "643421546@qq.com",
+  "license": "MIT",
+  "dependencies": {
+    "gulp": "^3.9.1"
+  }
+}
