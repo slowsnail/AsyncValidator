@@ -1,0 +1,24 @@
+@charset "utf-8";
+
+$setting: (
+	// 版本号
+	version: 			"3.0.0",
+	// { Boolean } 是否开启厂商前缀
+	is-vendor-prefix: 	true,
+	// { String } 厂商前缀
+	vendor-prefix: 		-webkit-,
+	bgimg-domain: 		"//s.qunarzz.com/yo/bgimg",
+	// { Boolean } 是否允许竖屏时文字字号自动调整
+	is-text-size-adjust: true,
+	// { Boolean } 是否显示页面滚动
+	is-scrollbar: 		 fasle
+);
+
+$ico: (
+	// {Boolean} 是否使用图标字体
+	is-use: 	true,
+	// {String} yofont
+	font-name: yofont,
+	// {Url} 图标字体路径
+	font-path: '//ss.qunar.com/yo/font/1.0.3/'
+);

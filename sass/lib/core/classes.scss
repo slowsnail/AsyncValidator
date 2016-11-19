@@ -1,0 +1,154 @@
+@charset "utf-8";
+@import "variables";
+
+/**
+ * 全局基础方法
+ * 包括响应式方案，CSS3 兼容性方案，厂商前缀，iconfont 方案，flex 布局等全局方法
+ */
+
+
+/**
+ * @module 功能
+ * @description 给需要的属性加厂商前缀
+ * @method _prefix
+ * @param {String} $property 指定属性
+ * @param {String} $value 指定属性值
+ */
+@mixin _prefix($property, $value) {
+	// 老式浏览器
+	// 是否开启厂商前缀支持
+	@if map-get($setting, is-vendor-prefix) {
+		// 遍历输出厂商代码
+		@each $vendor in map-get($setting, vendor-prefix) {
+			#{$vendor}#{$property}: $value;
+		}
+	}
+	// 现代浏览器（支持最新草案）
+	#{$property}: $value;
+}
+
+/**
+ * @module 用户界面
+ * @description 定义盒模型
+ * @method box-sizing
+ * @param {String} $box-sizing 指定盒模型类型，取值与`box-sizing`属性一致，默认值：box-box
+ */
+@mixin box-sizing($box-sizing: border-box) {
+	@include _prefix(box_sizing, $box-sizing);
+} 
+
+/**
+ * @module 功能
+ * @description 定义文档根节点是否允许滚动
+ * @method root-scroll
+ * @param {Boolean} $is-scroll 指定是否有滚动，默认值：false
+ */
+@mixin root-scroll($is-scroll: false) {
+	html,
+	body {
+		@if $is-scroll {
+			overflow: visible;
+			height: auto;
+		} @else {
+			overflow: hidden;
+			height: 100%;
+		}
+	}
+}
+
+/**
+ * @module 定义如何选中内容
+ * @method user-select
+ * @param {String} $user-select 取值与`user-select` 属性一致，默认值： none
+ */
+
+@mixin user-select($user-select: none) {
+	@include _prefix(user-select, $user-select);
+}
+
+/**
+ * @module 功能
+ * @description 定义是否有滚动条
+ * @method overflow
+ * @param {String} $overflow 取值与最新原生语法一致，默认值： auto
+ */
+
+@mixin overflow($overflow: auto) {
+	@if $overflow == auto {
+		overflow: auto;
+		// 移除此条规则，防止 iOS8.0+ webview 崩溃
+		-webkit-overflow-scrolling: touch;
+	} @else {
+		overflow: $overflow;
+	}
+}
+
+/**
+ * @module 用户界面
+ * @description 定义 UA 默认外观
+ * @method appearance
+ * @param {String} $appearance 取值与 `appearance` 属性值一致，默认值：none
+ */
+
+@mixin appearance($appearance: none) {
+	@include _prefix(appearance, $appearance);
+}
+
+/**
+ * @module 功能
+ * @description 清除浮动方案
+ * @method clearfix
+ * @parma $type 指定清除浮动的方式，包括：pseudo-element | bfc，默认值：pseudo-element
+ */
+@mixin clearfix($type: pseudo-element) {
+	
+	@if $type == pseudo-element {
+		// 创建伪元素用以清除自身浮动
+		&::after {
+			display: block;
+			overflow: hidden;
+			clear: both;
+			height: 0;
+			content: "\0020";
+		}
+	} @else {
+		// 创建 BFC 用以清除自身浮动
+		overflow: hidden;
+	}
+}
+
+/**
+ * @module 功能
+ * @description 定义字体图标
+ * @method _yofont
+ */
+
+@mixin _yofont() {
+	@if map-get($ico, is-use) {
+		@font-face {
+			font-family: map-get($ico, font-name);
+			src: 
+				// 现代浏览器
+				url(#{map-get($ico, font-path)}#{map-get($ico, font-name)}.woff) format("woff"),
+				// Android2.2+
+				url(#{map-get($ico, font-path)}#{map-get($ico, font-name)}.ttf) format("truetype");
+		}
+
+		.yo-ico {
+			font-family: map-get($ico, font-name) !important;
+			font-style: normal;
+			-webkit-font-smoothing: antialiased;
+			// PC 端 Chrome 有锯齿问题，Mobile 不需要
+			// -webkit-text-stroke-width: .1px;
+			-moz-osx-font-smoothing: grayscale;
+			vertical-align: middle;
+		}
+	}
+}
+
+
+
+
+
+
+
