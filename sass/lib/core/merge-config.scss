@@ -11,17 +11,17 @@
  @if global-variable-exists(setting) {
  	$setting: map-merge($_setting, $setting) !global;
  } @else {
- 	$setting: $_setting;
+ 	$setting: $_setting !global;
  }
 
  @if global-variable-exists(ico) {
  	$ico: map-merge($_ico, $ico) !global;
  } @else {
- 	$ico: $_ico;
+ 	$ico: $_ico !global;
  }
 
  @if global-variable-exists(header) {
  	$header: map-merge($_header, $header) !global;
  } @else {
- 	$header: $_header;
+ 	$header: $_header !global;
  }
