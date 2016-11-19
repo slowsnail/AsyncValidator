@@ -1,6 +1,6 @@
 @charset "utf-8";
 
-$setting: (
+$_setting: (
 	// 版本号
 	version: 			"3.0.0",
 	// { Boolean } 是否开启厂商前缀
@@ -14,11 +14,15 @@ $setting: (
 	is-scrollbar: 		 fasle
 );
 
-$ico: (
+$_ico: (
 	// {Boolean} 是否使用图标字体
 	is-use: 	true,
 	// {String} yofont
 	font-name: yofont,
 	// {Url} 图标字体路径
 	font-path: '//ss.qunar.com/yo/font/1.0.3/'
+);
+
+$_header: (
+
 );

@@ -1,0 +1,7 @@
+@charset "utf-8";
+
+// 定义 header 的基础构造
+@mixin _header {
+	position: relative;
+	height: map-get($height, height);
+}

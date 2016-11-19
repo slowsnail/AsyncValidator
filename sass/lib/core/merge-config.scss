@@ -1,0 +1,27 @@
+@charset "utf-8";
+@import "variables";
+
+/**
+ * 合并 variables 和 config 的同类 map
+ * 用以解决业务方升级 Yo 时需要 config 和 variables 的一致性
+ * 当 config 为空时，使用 variables 中的 map 作为默认值
+ * 当 config 不为空时，使用 config 中的定义
+ */
+
+ @if global-variable-exists(setting) {
+ 	$setting: map-merge($_setting, $setting) !global;
+ } @else {
+ 	$setting: $_setting;
+ }
+
+ @if global-variable-exists(ico) {
+ 	$ico: map-merge($_ico, $ico) !global;
+ } @else {
+ 	$ico: $_ico;
+ }
+
+ @if global-variable-exists(header) {
+ 	$header: map-merge($_header, $header) !global;
+ } @else {
+ 	$header: $_header;
+ }
