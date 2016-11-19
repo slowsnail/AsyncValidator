@@ -53,8 +53,8 @@
 *,
 ::before,
 ::after {
-  -webkit-box_sizing: border-box;
-  box_sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
   -webkit-tap-highlight-clor: transparent; }
 
 html,

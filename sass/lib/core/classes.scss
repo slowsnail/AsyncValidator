@@ -34,7 +34,7 @@
  * @param {String} $box-sizing 指定盒模型类型，取值与`box-sizing`属性一致，默认值：box-box
  */
 @mixin box-sizing($box-sizing: border-box) {
-	@include _prefix(box_sizing, $box-sizing);
+	@include _prefix(box-sizing, $box-sizing);
 } 
 
 /**
