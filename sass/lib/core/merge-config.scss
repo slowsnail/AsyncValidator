@@ -25,3 +25,9 @@
  } @else {
  	$header: $_header !global;
  }
+
+ @if global-variable-exists(media-types) {
+ 	$media-types: map-merge($_media-types, $media-types) !global;
+ } @else {
+ 	$meida-types: $_media-types !global;
+ }

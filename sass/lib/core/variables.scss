@@ -24,5 +24,72 @@ $_ico: (
 );
 
 $_header: (
-
+	// {Length} 高度
+	height: 		.44rem,
+	// {Length} 两侧的子项宽度
+	item-width: 	.6rem,
+	// {Length} 两侧子项离边界的间隙
+	item-space: 	.15rem,
+	// {Length} 边框厚度
+	border-width: 	0 0 1px,
+	// {Color} 边框色
+	border-color: 	#1ba9ba,
+	// {Color} 背景色
+	bgcolor: 		#1ba9ba,
+	// {Color} 文本色
+	color: 			#fff,
+	// {Length} 文本大小
+	font-size: 		.18rem,
+	// {Color} 文本色
+	item-color: 	#fff,
+	// {Color} 两侧的子项 icon 颜色
+	item-ico-color: #7ff,
+	// {Length} 两侧的子项文本大小
+	item-font-size: null,
+	// {Length} 两侧的子项 ico 大小
+	item-ico-size: 	.2rem
 );
+
+$_media-types: (
+    // {String} 横屏
+    landscape: "(orientation: landscape)",
+    // {String} 竖屏
+    portrait:  "(orientation: portrait)",
+    // 视网膜屏定义，这里不做非常细节的界定，比如完全一致的整数倍
+    // retina1x：< 1.5dppx；
+    // retina2x：1.5dppx ~ 2.49dppx
+    // retina3x：>= 2.5dppx
+    // {String} 非视网膜屏
+    retina1x:  "(max--moz-device-pixel-ratio: 1.49),
+                (-webkit-max-device-pixel-ratio: 1.49),
+                (max-device-pixel-ratio: 1.49),
+                (max-resolution: 143dpi),
+                (max-resolution: 1.49dppx)",
+    // {String} 视网膜屏2x
+    retina2x:  "(min--moz-device-pixel-ratio: 1.5) and (max--moz-device-pixel-ratio: 2.49),
+                (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 2.49),
+                (min-device-pixel-ratio: 1.5) and (max-device-pixel-ratio: 2.49),
+                (min-resolution: 144dpi) and (max-resolution: 239dpi),
+                (min-resolution: 1.5dppx) and (max-resolution: 2.49dppx)",
+    // {String} 视网膜屏3x
+    retina3x:  "(min--moz-device-pixel-ratio: 2.5),
+                (-webkit-min-device-pixel-ratio: 2.5),
+                (min-device-pixel-ratio: 2.5),
+                (min-resolution: 240dpi),
+                (min-resolution: 2.5dppx)",
+    // 待添加stop-points
+    // 用于常规手机横竖屏
+    xs:        "(max-width: 767px)",
+    // 用于常规pad横竖屏
+    s:         "(min-width: 768px) and (max-width: 1024px)",
+    // 用于常规笔记本
+    m:         "(min-width: 1025px) and (max-width: 1280px)",
+    // 用于常规台式机
+    l:         "(min-width: 1281px) and (max-width: 1440px)",
+    // 用于超大台式机
+    xl:        "(min-width: 1441px)"
+);
+
+
+
+

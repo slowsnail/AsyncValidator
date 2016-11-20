@@ -62,6 +62,40 @@
  * @description 定义字体图标
  * @method _yofont
  */
+/**
+ * @module 文本
+ * @description 单行文本溢出时显示省略号
+ * @method ellipsis
+ * @param {Length} $width 定义容器的宽度，默认值 null
+ * @param {Length} $line-clamp 定义需要显示的行数，默认值 1（即使用单行溢出处理方案），需要注意的是本参数只支持webkit内核
+ */
+/**
+ * @method Flexbox
+ * @description 定义伸缩盒子元素的流动方向
+ * @method flex-direction
+ * @param {String} $flex-direction 取值与`flex-direction`属性一致
+ */
+/**
+ * @module 文本
+ * @description 文本碰到边界是否换行
+ * @medthod wrap
+ * @param {Boolean} $is-wrap 定义文本是否换行，默认值 true
+ */
+/**
+ * @module 背景与边框
+ * @description 为元素添加边框（包括 1px 边框）
+ * @method border
+ * @param {String} $border-width 指定边框厚度，默认值 1px，取值与`border-width`属性一致，不同方向代表边框未知
+ * @param {String} $border-color 指定边框颜色
+ * @param {String} $border-style 指定边框样式
+ * @param {String} $radius 指定边框圆角半径，默认值 null
+ */
+/**
+ * @module 功能
+ * @description 定义响应式方案
+ * @method responsive
+ * @param {String} $media 指定媒体查询条件，取值为`config`文件 map `media-types`中的值
+ */
 *,
 ::before,
 ::after {
@@ -265,3 +299,91 @@ a {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   vertical-align: middle; }
+
+/**
+ * @module fragment
+ * @method yo-header
+ * @description 构造头的自定义使用方法
+ * @param {String} $name 定义扩展名称
+ * @param {Length} $height 高度
+ * @param {Length} $item-width 两侧子项操作区宽度
+ * @param {Length} $item-space 两侧子项离边界的宽度
+ * @param {Length} $border-width 边框厚度
+ * @param {Length} $border-color 边框颜色
+ * @param {Color} $bgcolor 背景色
+ * @param {Length} $font-size 字号大小
+ * @param {Color} $item-color 两侧子项操作区文本色
+ * @param {Color} $item-ico-color 两侧子项操作区ico色
+ * @param {Length} $item-font-size 两侧子项操作区字号大小
+ * @param {Length} $item-ico-size 两侧子项操作区ico大小
+ */
+.yo-header {
+  position: relative;
+  height: 0.44rem;
+  line-height: 0.44rem;
+  position: relative;
+  background-color: #1ba9ba;
+  color: #fff;
+  font-size: 0.18rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center; }
+  .yo-header::after {
+    pointer-events: none;
+    position: absolute;
+    z-index: 999;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    content: "\0020";
+    border-color: #1ba9ba;
+    border-width: 0 0 1px;
+    border-style: solid;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0; }
+    @media (max--moz-device-pixel-ratio: 1.49), (-webkit-max-device-pixel-ratio: 1.49), (max-device-pixel-ratio: 1.49), (max-resolution: 143dpi), (max-resolution: 1.49dppx) {
+      .yo-header::after {
+        width: 100%;
+        height: 100%; } }
+    @media (min--moz-device-pixel-ratio: 1.5) and (max--moz-device-pixel-ratio: 2.49), (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 2.49), (min-device-pixel-ratio: 1.5) and (max-device-pixel-ratio: 2.49), (min-resolution: 144dpi) and (max-resolution: 239dpi), (min-resolution: 1.5dppx) and (max-resolution: 2.49dppx) {
+      .yo-header::after {
+        width: 200%;
+        height: 200%;
+        -webkit-transform: scale(0.5);
+        transform: scale(0.5); } }
+    @media (min--moz-device-pixel-ratio: 2.5), (-webkit-min-device-pixel-ratio: 2.5), (min-device-pixel-ratio: 2.5), (min-resolution: 240dpi), (min-resolution: 2.5dppx) {
+      .yo-header::after {
+        width: 300%;
+        height: 300%;
+        -webkit-transform: scale(0.33333);
+        transform: scale(0.33333); } }
+  .yo-header > .titlel {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin: 0 0.6rem; }
+  .yo-header > .regret,
+  .yo-header > .affirm {
+    position: absolute;
+    top: 0;
+    width: 0.6rem;
+    color: #fff;
+    cursor: pointer; }
+    .yo-header > .regret:active,
+    .yo-header > .affirm:active {
+      opacity: .5; }
+    .yo-header > .regret.yo-ico,
+    .yo-header > .regret > .yo-ico,
+    .yo-header > .affirm.yo-ico,
+    .yo-header > .affirm > .yo-ico {
+      color: #7ff;
+      font-size: 0.2rem; }
+  .yo-header > .regret {
+    left: 0;
+    padding-left: 0.15rem;
+    text-align: left; }
+  .yo-header .affirm {
+    right: 0;
+    padding-right: 0.15rem;
+    text-align: right; }
