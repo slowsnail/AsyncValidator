@@ -358,7 +358,7 @@ a {
         height: 300%;
         -webkit-transform: scale(0.33333);
         transform: scale(0.33333); } }
-  .yo-header > .titlel {
+  .yo-header > .title {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

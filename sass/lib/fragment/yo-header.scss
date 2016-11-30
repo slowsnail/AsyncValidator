@@ -14,7 +14,7 @@
 	font-size: map-get($header, font-size);
 	@include ellipsis;
 	text-align: center;
-	> .titlel {
+	> .title {
 		@include ellipsis;
 		margin: 0 map-get($header, item-width);
 	}

@@ -320,3 +320,45 @@
 	@include _prefix(transform-origin, $transform-origin)
 }
 
+/**
+ * @module Flexbox
+ * @description 定义显示类型为伸缩盒
+ * @param {String} $flexbox 默认盒： flex，可选值 flex | inline-flex
+ */
+
+@mixin flexbox($flexbox: flex) {
+	@if $flexbox == inline-flex or $flexbox == inline {
+		$flexbox: "inline-";
+	} @else {
+		$flexbox: "";
+	}
+	// 老式浏览器（实验性质支持3个阶段草案）
+	// 原始草案： 20090723
+	// 过度草案：20110322-20120322（以后面这个日期为准）
+	// 最新草案： 20120612-20140925（以后面这个日期为准）
+	@if map-get($setting, is-vendor-prefix) {
+		@each $vendor in map-get($setting, vendor-prefix) {
+			@if $vendor != -ms- {
+				// 当厂商前缀不为`-ms-`时输出原始和最新草案厂商前缀
+				display: #{$vendor}#{$flexbox}box;
+				display: #{$vendor}#{$flexbox}flex;
+			} @else {
+				// 当厂商前缀为`-ms-`时输出过渡草案厂商前缀版
+				display: #{$vendor}#{$flexbox}flexbox;
+			}
+		}
+	}
+	// 现代浏览器支持最新草案
+	display: #{$flexbox}flex;
+}
+
+
+
+
+
+
+
+
+
+
+
