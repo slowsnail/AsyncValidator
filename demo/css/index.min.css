@@ -96,6 +96,25 @@
  * @method responsive
  * @param {String} $media 指定媒体查询条件，取值为`config`文件 map `media-types`中的值
  */
+/**
+ * @module Flexbox
+ * @description 定义显示类型为伸缩盒
+ * @param {String} $flexbox 默认盒： flex，可选值 flex | inline-flex
+ */
+/**
+ * @module Flexbox 
+ * @description 定义伸缩盒子元素如何分配空间
+ * @method flex 
+ * @param {Number} $flex 取值与`flex` 属性一致，默认值：1
+ * @param {String} $direction 默认值 row，可选值：row | column 
+ */
+/**
+ * @module 功能
+ * @description 生成全屏方法
+ * @method fullscreen
+ * @param {Integer} $z-index: 指定层叠级别
+ * @param {Keywords} $position 指定定位方式，取除`static | relative` 之外的值，默认值： absolute
+ */
 *,
 ::before,
 ::after {
@@ -387,3 +406,40 @@ a {
     right: 0;
     padding-right: 0.15rem;
     text-align: right; }
+
+.yo-header-async {
+  background-color: #31386d; }
+  .yo-header-async::after {
+    border-color: #31386d; }
+
+.yo-flex {
+  height: 100%; }
+  .yo-flex,
+  .yo-flex .flex-inherit {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    overflow: hidden; }
+  .yo-flex > .flex,
+  .yo-flex .flex-inherit,
+  .yo-flex .flex-inherit > .flex {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    flex: 1;
+    height: .1px;
+    position: relative; }
+  .yo-flex > .flex,
+  .yo-flex .flex-inherit > .flex {
+    overflow: auto;
+    -webkit-overflow-scrolling: touch; }
+    .yo-flex > .flex > .yo-flex,
+    .yo-flex .flex-inherit > .flex > .yo-flex {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0; }

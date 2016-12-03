@@ -352,6 +352,53 @@
 	display: #{$flexbox}flex;
 }
 
+/**
+ * @module Flexbox 
+ * @description 定义伸缩盒子元素如何分配空间
+ * @method flex 
+ * @param {Number} $flex 取值与`flex` 属性一致，默认值：1
+ * @param {String} $direction 默认值 row，可选值：row | column 
+ */
+@mixin flex($flex: 1, $direction: row) {
+	// 老式浏览器（实验性质支持3个阶段草案）
+	// 原始版本 box-flex 并不是复合属性，所以只有一个为数字的值
+	@if map-get($setting, is-vendor-prefix) {
+		@each $vendor in map-get($setting, vendor-prefix) {
+			@if $vendor != -ms- {
+				// 当厂商前缀不为 `-ms-`时输出原始和最新草案厂商前缀
+				#{$vendor}box-flex: $flex;
+				#{$vendor}flex:$flex;
+			} @else {
+				// 当厂商前缀为`-ms-`时输出过渡草案厂商前缀
+				#{$vendor}flex: $flex;
+			}
+		}
+	}
+	// 现代浏览器支持最新草案
+	flex: $flex;
+	// 修复 Android Browser4.3 及以下，iOS Safari6.1 及以下按比例分配错误的问题（同时还包括 flex 嵌套时分配错误）
+	@if $direction == row {
+		width: .1px;
+	} @else {
+		height: .1px;
+	}
+}
+
+/**
+ * @module 功能
+ * @description 生成全屏方法
+ * @method fullscreen
+ * @param {Integer} $z-index: 指定层叠级别
+ * @param {Keywords} $position 指定定位方式，取除`static | relative` 之外的值，默认值： absolute
+ */
+@mixin fullscreen($z-index: null, $position: absolute) {
+	position: $position;
+	z-index: $z-index;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+}
 
 
 

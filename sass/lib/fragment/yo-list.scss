@@ -1,0 +1,56 @@
+@charset "utf-8";
+
+// 定义 list 的基本构造
+
+@mixin _list {
+	margin: map-get($list, margin);
+	// 包括底边线在内的外边线都由list容器提供
+	@include border(
+		$border-width: map-get($list, border-width),
+		$border-color: map-get($list, border-color),
+		$radius: map-get($list, radius)
+	);
+	> .label,
+	> .item,
+	.front {
+		@include flexbox;
+		@include align-items;
+		// 修复某些安卓版本开启了3D，yo-list当成滚动内容时出现的诡异问题
+		// 移除该定义，请业务线自行在需要的地方添加
+		// 该定义会将所有的 item 放到 Composited Layer 中，对性能有较大影响
+		// @include transform(translatez(0))
+		// 定义需要自适应宽度的列
+		> .flex {
+			@include flex;
+			margin: 0 .1rem;
+			&:first-child {
+				margin-left: 0;
+			}
+			&:last-child {
+				margin-right: 0;
+			}
+		}
+		> .yo-ico {
+			display: block;
+			&:last-child {
+				color: map-get($list, more-color);
+				font-size: map-get($list, more-font-size);
+			}
+		}
+		&.tr {
+			// 当模式为 table 时，padding 将设置到 col 上
+			padding: 0;
+		}
+	}
+}
+
+@mixin yo-list (
+
+	) {
+
+}
+
+// 调用本文件时载入 list 基础构造
+.yo-list {
+	@include _list;
+}

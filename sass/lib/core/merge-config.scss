@@ -31,3 +31,15 @@
  } @else {
  	$meida-types: $_media-types !global;
  }
+
+  @if global-variable-exists(list) {
+ 	$list: map-merge($_list, $list) !global;
+ } @else {
+ 	$list: $_list !global;
+ }
+
+ @if global-variable-exists(flex) {
+ 	$flex: map-merge($_flex, $flex) !global;
+ } @else {
+ 	$flex: $_flex !global;
+ }
