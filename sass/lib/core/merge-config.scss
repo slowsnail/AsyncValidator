@@ -43,3 +43,9 @@
  } @else {
  	$flex: $_flex !global;
  }
+
+ @if global-variable-exists(btn) {
+	 $btn: map-merge($_btn, $btn) !global;
+ } @else {
+	 $btn: $_btn !global;
+ }

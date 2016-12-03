@@ -1,5 +1,11 @@
 @charset "UTF-8";
 /**
+ * Yo框架全局base定义
+ * 本文件与variables不同地方在于，这里所定义的map可以使用在variables和任何地方
+ * 本文件中map使用"_"开头，extra中不使用"_"
+ * base ⇌ extra
+ */
+/**
  * 合并 base 和 extra 中的同类 base map
  * 用以解决业务放升级 Yo 时需要比 base 和 extra 的一致性
  * 当 extra 为空时，base map 将以 base 文件里的定义作为默认值
@@ -142,7 +148,7 @@ html {
 
 body {
   margin: 0;
-  font-size: 0.14rem;
+  font-size: 0.14em;
   line-height: 1.5;
   font-family: Helvetica Neue, Helvetica, STHeiTi, sans-serif; }
 
@@ -627,5 +633,96 @@ a {
 .yo-list-group > .item::after {
   left: 0.16rem; }
 
-.yo-list-group .item > .mark {
-  width: .45rem; }
+.yo-list-group .item {
+  padding-left: .15rem; }
+  .yo-list-group .item > .mark {
+    width: .6rem; }
+
+/**
+ * @module element
+ * @method yo-btn
+ * @description 构造按钮的自定义使用方法。勿使用 `input` 标签，因为边框为 `::after` 实现
+ * @param {String} $name 定义扩展名
+ * @param {Length} $border-width 边框厚度
+ * @param {Color} $border-color 边框色
+ * @param {Color} $bgcolor 背景色
+ * @param {Color} $color 文本色
+ * @param {Color} $active-border-color 触点（鼠标，手指或其他）按下时边框色
+ * @param {Color} $active-bgcolor 触点（鼠标，手指或其他）按下时背景色
+ * @param {Color} $active-color 触点（鼠标，手指或其他）按下时文本色
+ * @param {Length} $padding 内补白
+ * @param {Length} $radius 圆角半径长度
+ * @param {Length} $font-size 字号大小
+ * @param {Length} $width 宽度
+ * @parma {Length} $height 高度
+ */
+.yo-btn {
+  display: inline-block;
+  padding: 0 1.2em;
+  vertical-align: top;
+  position: relative;
+  border-radius: 0.05rem;
+  border: 0 none;
+  background-color: #ff801a;
+  color: #fff;
+  text-align: center;
+  cursor: pointer; }
+  .yo-btn::after {
+    pointer-events: none;
+    position: absolute;
+    z-index: 999;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    content: "\0020";
+    border-color: #d36105;
+    border-width: 1px;
+    border-style: solid;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0; }
+    @media (max--moz-device-pixel-ratio: 1.49), (-webkit-max-device-pixel-ratio: 1.49), (max-device-pixel-ratio: 1.49), (max-resolution: 143dpi), (max-resolution: 1.49dppx) {
+      .yo-btn::after {
+        width: 100%;
+        height: 100%;
+        border-radius: 0.05rem; } }
+    @media (min--moz-device-pixel-ratio: 1.5) and (max--moz-device-pixel-ratio: 2.49), (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 2.49), (min-device-pixel-ratio: 1.5) and (max-device-pixel-ratio: 2.49), (min-resolution: 144dpi) and (max-resolution: 239dpi), (min-resolution: 1.5dppx) and (max-resolution: 2.49dppx) {
+      .yo-btn::after {
+        width: 200%;
+        height: 200%;
+        -webkit-transform: scale(0.5);
+        transform: scale(0.5);
+        border-radius: 0.1rem; } }
+    @media (min--moz-device-pixel-ratio: 2.5), (-webkit-min-device-pixel-ratio: 2.5), (min-device-pixel-ratio: 2.5), (min-resolution: 240dpi), (min-resolution: 2.5dppx) {
+      .yo-btn::after {
+        width: 300%;
+        height: 300%;
+        -webkit-transform: scale(0.33333);
+        transform: scale(0.33333);
+        border-radius: 0.15rem; } }
+  .yo-btn-disabled {
+    opacity: 1;
+    cursor: not-allowed; }
+    .yo-btn-disabled, .yo-btn-disabled:active {
+      background-color: #ffaa67;
+      color: white; }
+      .yo-btn-disabled::after, .yo-btn-disabled:active::after {
+        border-color: #fa7f1c; }
+
+.yo-btn-async {
+  width: 100%;
+  height: 0.4rem;
+  background-color: #e0e1e3;
+  color: #c7c8c9; }
+  .yo-btn-async::after {
+    border-color: #e0e1e3; }
+  .yo-btn-async:active {
+    background-color: #e0e1e3; }
+  .yo-btn-async.yo-btn-disabled, .yo-btn-async.yo-btn-disabled:active {
+    background-color: #ffaa67;
+    color: white; }
+    .yo-btn-async.yo-btn-disabled::after, .yo-btn-async.yo-btn-disabled:active::after {
+      border-color: #fa7f1c; }
+
+.m-async-ft {
+  text-align: center;
+  padding: .24rem .1rem; }

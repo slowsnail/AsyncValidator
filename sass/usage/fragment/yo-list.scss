@@ -7,8 +7,9 @@
     $label-padding: .1rem .15rem
 ) {
     .item {
+        padding-left: .15rem;
         > .mark {
-            width: .45rem;
+            width: .6rem;
         }
     }
 }
