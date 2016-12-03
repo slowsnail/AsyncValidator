@@ -400,7 +400,57 @@
 	left: 0;
 }
 
-
+/**
+ * @module Flexbox 
+ * @description 定义单行弹性容器侧轴对齐方式
+ * @method align-items 
+ * @param {String} $align-items 取值 `align-items` 属性一致，默认值：center
+ */
+@mixin align-items($align-items: center) {
+	// 老式浏览器（实验性质支持 3 个阶段草案）
+	@if $align-items == flex-start {
+		@if map-get($setting, is-vendor-prefix) {
+			@each $vendor in map-get($setting, vendor-prefix) {
+				@if $vendor != -ms- {
+					// 当厂商前缀不为 `-ms` 时输出原始和最新菜案厂商前缀
+					#{$vendor}box-align: start;
+					#{$vendor}align-items: $align-items;
+				} @else {
+					// 当厂商前缀为`-ms-`时输出过渡草案厂商前缀版
+					#{$vendor}flex-align: start;
+				}
+			}
+		}
+	} @else if $align-items == flex-end {
+		@if map-get($setting, is-vendor-prefix) {
+			@each $vendor in map-get($setting, vendor-prefix) {
+				@if $vendor != -ms- {
+					// 当厂商前缀不为`-ms-`时输出原始和最新草案厂商前缀
+					#{$vendor}box-align: end;
+					#{$vendor}align-items: $align-items;
+				} @else {
+					// 当厂商前缀为`-ms` 时输出过渡草案厂商前缀
+					#{$vendor}flex-align: end;
+				}
+			}
+		}
+	} @else {
+		// 取值为 center | baseline | stretch 时，3个阶段草案均相同
+		@if map-get($setting, is-vendor-prefix) {
+			@each $vendor in map-get($setting, vendor-prefix) {
+				@if $vendor != -ms- {
+					// 当厂商前缀不为`-ms-`时输出原始和最新草案厂商前缀
+					#{$vendor}box-align: $align-items;
+					#{$vendor}align-items: $align-items;
+				} @else {
+					#{$vendor}flex-align: $align-items;
+				}
+			}
+		}
+	}
+	// 现代浏览器支持最新草案
+	align-items: $align-items;
+}
 
 
 

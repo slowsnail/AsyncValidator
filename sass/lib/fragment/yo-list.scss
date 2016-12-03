@@ -42,12 +42,269 @@
 			padding: 0;
 		}
 	}
+	> .label {
+		padding: map-get($list, label-padding);
+		// 绘制 label 边线
+		@include border(
+			$border-width: 1px 0,
+			$border-color: map-get($list, label-border-color)
+		);
+		// 第一个 label 只需要下边线
+		&:first-child::after {
+			border-width: 0 0 1px;
+		}
+		// 移除紧邻 item 的上边线
+		+ .item::after {
+			border-width: 0;
+		}
+		background-color: map-get($list, label-bgcolor);
+		color: map-get($list, sub-color);
+		font-size: map-get($list, label-font-size);
+		font-weight: normal;
+		// 定义单元格的 padding 
+		> .col {
+			padding: map-get($list, label-padding);
+		}
+	}
+	> .item,
+	.front {
+		padding: map-get($list, item-padding);
+	}
+	> .item {
+		overflow: hidden;
+		background-color: #fff;
+		color: map-get($list, color);
+		font-size: map-get($list, item-font-size);
+		// 绘制 item 上边线
+		@include border(
+			$border-width: 1px 0 0,
+			$border-color: map-get($list, item-border-color)
+		);
+		// item 边线向左偏移量
+		&::after {
+			left: map-get($list, item-border-space);
+		}
+		&::first-child::after {
+			border-width: 0;
+		}
+		&-input {
+			> .input {
+				@include appearance;
+				display: block;
+				width: 100%;
+				border: 0;
+				&::-webkit-input-placeholder {
+					color: #bbb;
+				}
+			}
+		}
+		&-stacked {
+			display: block;
+			> .mark {
+				padding-bottom: .05rem;
+			}
+		}
+		&.item-active:active,
+		&.item-light {
+			&,
+			.front {
+				background-color: map-get($list, active-bgcolor);
+			}
+		}
+		// 选中时背景和文本色
+		&.item-on {
+			background-color: map-get($list, on-bgcolor);
+			color: map-get($list, on-color);
+		}
+		// 定义单元格的 padding 
+		> .col {
+			padding: map-get($list, item-padding);
+		}
+	}
 }
 
 @mixin yo-list (
+	$name: default,
+	$margin: default,
+	$radius: default,
+	$border-width: default,
+	$border-color: default,
+	$item-padding: default,
+	$label-padding: default,
+	$label-bgcolor: default,
+	$active-bgcolor: default,
+	$on-bgcolor: default,
+	$on-color: default,
+	$item-border-color: default,
+	$label-border-color: default,
+	$item-font-size: default,
+	$label-font-size: default,
+	$item-border-space: default,
+	$more-font-size: default,
+	$more-color: default) {
+	// 区别是否新增实例还是修改本身
+	$name: if($name == default, "", "-#{$name}");
+	// 如果值为 default, 则取 config 的定义
+	@if $margin == default {
+		$margin: map-get($list, margin);
+	}
+	@if $radius == default {
+		$radius: map-get($list, radius);
+	}
+	@if $border-width == default {
+		$border-width: map-get($list, border-width);
+	}
+	@if $border-color == default {
+		$border-color: map-get($list, border-color);
+	}
+	@if $item-padding == default {
+		$item-padding: map-get($list, item-padding);
+	}
+	@if $label-padding == default {
+		$label-padding: map-get($list, label-padding);
+	}
+	@if $label-bgcolor == default {
+		$label-bgcolor: map-get($list, label-bgcolor);
+	}
+	@if $active-bgcolor == default {
+		$active-bgcolor: map-get($list, active-bgcolor);
+	}
+	@if $on-bgcolor == default {
+		$on-bgcolor: map-get($list, on-bgcolor);
+	}
+	@if $on-color == default {
+		$on-color: map-get($list, on-color);
+	}
+	@if $item-border-color == default {
+		$item-border-color: map-get($list, item-border-color);
+	}
+	@if $label-border-color == default {
+		$label-border-color: map-get($list, label-border-color);
+	}
+	@if $label-font-size == default {
+		$label-font-size: map-get($list, label-font-size);
+	}
+	@if $item-font-size == default {
+		$item-font-size: map-get($list, item-font-size);
+	}
+	@if $item-border-space == default {
+		$item-border-space: map-get($list, item-border-space);
+	}
+	@if $more-font-size == default {
+		$more-font-size: map-get($list, more-font-size);
+	}
+	@if $more-color == default {
+		$more-color: map-get($list, more-color);
+	}
 
-	) {
-
+	.yo-list#{$name} {
+		@if $margin != map-get($list, margin) {
+			margin: $margin;
+		}
+		@if $radius != map-get($list, radius) {
+			border-radius: $radius;
+			overflow: hidden;
+		}
+		&::after {
+			// 如果 $border-width 不等于 config 设定，则重绘边框相关
+			@if $border-width != map-get($list, border-width) {
+				border-width: $border-width;
+			}
+			// 如果 $border-color 不等于 config 设定，则重绘边框色
+			@if $border-color != map-get($list, border-color) {
+				border-color: $border-color;
+			}
+			// 如果 $radius 不等于 config 设定，则重绘边框圆角
+			@if $radius != map-get($list, radius) {
+				@include responsive(retina1x) {
+					border-radius: $radius;
+				}
+				@include responsive(retina2x) {
+					border-radius: $radius * 2;
+				}
+				@include responsive(retina3x) {
+					border-radius: $radius * 3;
+				}
+			}
+		}
+		> .label,
+		> .item,
+		.front {
+			> .yo-ico {
+				&:last-child {
+					@if $more-color != map-get($list, more-color) {
+						color: $more-color;
+					}
+					@if $more-font-size != map-get($list, more-font-size) {
+						font-size: $more-font-size;
+					}
+				}
+			}
+		}
+		> .label {
+			@if $label-padding != map-get($list, label-padding) {
+				padding: $label-padding;
+				> .col {
+					padding: $label-padding;
+				}
+			}
+			@if $label-bgcolor != map-get($list, label-bgcolor) {
+				background-color: $label-bgcolor;
+			}
+			@if $label-font-size != map-get($list, label-font-size) {
+				font-size: $label-font-size;
+			}
+			&::after {
+				@if $label-border-color != map-get($list, label-border-color) {
+					border-color: $label-border-color;
+				}
+			}
+		}
+		> .item,
+		.front {
+			@if $item-padding != map-get($list, item-padding) {
+				padding: $item-padding;
+				> .col {
+					padding: $item-padding;
+				}
+			}
+		}
+		> .item {
+			// 如果 $item-font-size 不等于 config 设定，则重绘子项字号
+			@if $item-font-size != map-get($list, item-font-size) {
+				font-size: $item-font-size;
+			}
+			&::after {
+				// 如果 $item-border-coor 不等于 config 设定，则重绘子项边框色
+				@if $item-border-color != map-get($list, item-border-color) {
+					border-color: $item-border-color;
+				}
+				// 如果 $item-border-space 不等于 config 设定，则重绘子项边框间隙
+				@if $item-border-space != map-get($list, item-border-space) {
+					left: $item-border-space;
+				}
+			}
+			&.item-active:active,
+			&.item-light {
+				&,
+				.front {
+					@if $active-bgcolor != map-get($list, active-bgcolor) {
+						background-color: $active-bgcolor;
+					}
+				}
+			}
+			&.item-on {
+				@if $on-bgcolor != map-get($list, on-bgcolor) {
+					background-color: $on-bgcolor;
+				}
+				@if $on-color != map-get($list, on-color) {
+					color: $on-color;
+				}
+			}
+		}
+		// 增量扩展
+		@content;
+	}
 }
 
 // 调用本文件时载入 list 基础构造
