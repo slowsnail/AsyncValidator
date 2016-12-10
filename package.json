@@ -25,6 +25,7 @@
     "clean-css": "^3.4.20",
     "cookie-parser": "^1.4.3",
     "debug": "^2.2.0",
+    "es6-promise": "^4.0.5",
     "express": "^4.14.0",
     "gulp": "^3.9.1",
     "gulp-nodemon": "^2.2.1",
@@ -40,5 +41,9 @@
     "uglify-js": "^2.7.4",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
+  },
+  "devDependencies": {
+    "babel-preset-react": "^6.16.0",
+    "gulp-uglifyjs": "^0.6.2"
   }
 }

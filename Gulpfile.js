@@ -8,7 +8,9 @@ let reload = browserSync.reload
 let nodemon = require('gulp-nodemon')
 let path = require('path')
 let browserify = require('browserify')
+let babelify = require("babelify")
 let buffer = require('vinyl-buffer')
+let uglify = require('gulp-uglifyjs')
 let source = require('vinyl-source-stream')
 
 let config = require('./config')
@@ -68,9 +70,17 @@ gulp.task('css', function () {
 
 gulp.task('build-demo-js', function() {
 	return browserify({entries: './src/index.js' , debug: true })
+		.transform(babelify, {presets: ["es2015"]})
 		.bundle()
+		.on("error", function(err) {
+          var reg = /(.*\/)(.*)(?= while)/
+
+          console.log("[Error]: " + err.message);
+          this.emit("end");
+        })
 		.pipe(source('index.js'))
 		.pipe(buffer())
+		//.pipe(uglify())
 		.pipe(rename({
 			suffix: '.min'
 		}))
