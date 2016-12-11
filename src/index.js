@@ -179,6 +179,7 @@ var validator = new AsyncValidator('.js-async-form', [{
     validateType: 'all', // one
     commonHandler: function(result) {
         // 通用验证结果处理函数
+        console.log('common-handler: ', result)
     }
 })
 

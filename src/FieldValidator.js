@@ -30,8 +30,8 @@ export default class FieldValidator {
         this.selector = field.selector
         this.rules = field.rules || []
         this.events = field.events || []
-        this.validateType = field.validateType || 'all'
-        this.handler = field.handler || EmptyFunc
+        this.validateType = field.validateType || 'one' // 默认阻断式验证
+        this.handler = field.handler
 
         this.element = this.container.querySelector(this.selector)
 
@@ -46,12 +46,20 @@ export default class FieldValidator {
         if(this.events.length > 0) {
             for(let i = 0; i < this.events.length; i++) {
                 let event = this.events[i]
-                this.element.addEventListener(event, () => {
-                    // 调用 handler，或者 commonHandler
-                    this.validate()
-                }, false)
+                this.element.addEventListener(event, () => this.retHandler(), false)
             }
         }
+    }
+
+    retHandler() {
+        // handler 优先级高于 commonHandler 
+        this.validate().then((ret) => {
+            if(typeof this.handler === 'function') {
+                this.handler(ret)
+            } else {
+                this.commonHandler(ret)
+            }
+        })
     }
 
     createPromiseList() {
