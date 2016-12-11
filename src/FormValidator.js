@@ -1,36 +1,62 @@
-let PATTERNS = {
-    required: {
-        message: '该项不能为空',
-        validate: function(value, resolve) {
-           resolve( value !== "" )
+import FieldValidator from './FieldValidator'
+
+function EmptyFunc() {}
+
+export default class FormValidator {
+    constructor(formSelector, fields, options) {
+        this.formElement = document.querySelector(formSelector)
+        this.fields = fields
+        this.validateType = (options && options.validateType) || 'all'
+        this.commonHandler = (options && options.commonHandler) || EmptyFunc
+
+        if(!this.formElement) throw 'FormValidator - no formElement'
+
+        this.promiseList = []
+
+        this.createPromiseList()
+    }
+
+    createPromiseList() {
+        for (let i = 0; i < this.fields.length; i++) {
+            let field = this.fields[i]
+            let subElement = this.formElement.querySelector(field.selector)
+            if(subElement) {
+                let fieldValidator = new FieldValidator( this.formElement, field, this.commonHandler )
+                this.promiseList.push(
+                    fieldValidator.validate()
+                )
+            }
         }
     }
-}
 
-function extend(target, source) {
-    for (let p in source) {
-        if (source.hasOwnProperty(p)) {
-            target[p] = source[p]
+    validate() {
+        if(this.validateType === 'all') {
+            return this._validateAll()
+        } else if(this.validateType === 'one') {
+            return this._validateOne()
         }
     }
 
-    return target
-}
+    _validateAll() {
+        // 验证结果，status 初始值为 false，标示未验证通过
+        let ret = {
+            status: false
+        }
 
-export function addPattern(name,options) {
-    if(!name) throw new Error('add pattern - no name')
-    if(!options) throw new Error('add pattern - no options')
-    if(!options.message) throw new Error('add paattern - no options.message')
-    if(!options.validate) throw new Error('add pattern - no options.validate')
+        return Promise.all(this.promiseList).then(function(retList) {
+            console.log(retList)
 
-    PATTERNS[name] = extend({
-        name: name
-    }, options)
+            // ret.status = retList.every((ret) => ret.status)
+            // ret.data = retList
 
-    console.log(PATTERNS)
-    return this
-}
+            // console.log('form-ret: ', ret)
+            // return ret
 
-export function FormValidator() {
-    
+            return retList
+        })
+    }
+
+    _validateOne() {
+
+    }
 }

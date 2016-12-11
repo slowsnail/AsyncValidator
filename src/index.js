@@ -1,7 +1,8 @@
 import { polyfill } from 'es6-promise'
 polyfill()
 
-import * as v from './FormValidator'
+import FormValidator from './FormValidator'
+import * as v from './FieldValidator'
 
 let validFunc = {
     
@@ -112,7 +113,7 @@ v.addPattern('required', {
 .addPattern('idcard', {
     message: '身份证格式错误',
     validate: function(value, resolve) {
-        resolve( validFunc(value) )
+        resolve( validFunc.ID(value) === 1 )
     }
 })
 .addPattern('email', {
@@ -141,26 +142,42 @@ v.addPattern('required', {
 
 class AsyncValidator {
     constructor(formSelector, fields, options) {
-        this.form = new v.FormValidator(formSelector, fields, options)
+        this.form = new FormValidator(formSelector, fields, options)
         this.addPattern = v.addPattern
     }
 
     go() {
-        console.log('go')
+       this.form.validate().then((ret) => {
+          // console.log('async-ret: ', ret)
+       }).catch((err) => console.log(err))
     }
 }
 
 var validator = new AsyncValidator('.js-async-form', [{
     selector: '.js-username',
-    rules: ['required','max_length:8', 'min_length:6'],
+    rules: ['required','min_length:2', 'test'],
     events: ['blur', 'keyup'],
-    verifyType: 'all', // one
-    handler: function(element, result) {
+    validateType: 'all', // one
+    handler: function(result) {
         // 验证结果处理函数
+        console.log('username: ', result)
+    }
+}, {
+    selector: '.js-idcard',
+    rules: ['idcard', 'test'],
+    handler: function(result) {
+        console.log('idcard: ', result)
+    }
+
+}, {
+    selector: '.js-period',
+    rules: [],
+    handler: function(result) {
+        cosole.log('priod: ', result)
     }
 }], {
-    verifyType: 'all', // one
-    commonHandler: function() {
+    validateType: 'all', // one
+    commonHandler: function(result) {
         // 通用验证结果处理函数
     }
 })
