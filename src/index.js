@@ -155,31 +155,23 @@ class AsyncValidator {
 
 var validator = new AsyncValidator('.js-async-form', [{
     selector: '.js-username',
-    rules: ['required','min_length:2', 'test'],
-    events: ['blur', 'keyup'],
-    validateType: 'all', // one
-    handler: function(result) {
-        // 验证结果处理函数
-        console.log('username: ', result)
-    }
+    rules: ['required','min_length:2'],
+    events: ['blur', 'keyup']
 }, {
     selector: '.js-idcard',
     rules: ['idcard', 'test'],
-    handler: function(result) {
-        console.log('idcard: ', result)
-    }
-
+    events: ['blur', 'keyup']
 }, {
     selector: '.js-period',
-    rules: [],
-    handler: function(result) {
-        cosole.log('priod: ', result)
-    }
+    rules: ['min_length:2'],
+    events: ['keyup']
 }], {
-    validateType: 'all', // one
     commonHandler: function(result) {
         // 通用验证结果处理函数
         console.log('common-handler: ', result)
+        if(!result.status) {
+            result.element.style.color = 'red'
+        }
     }
 })
 

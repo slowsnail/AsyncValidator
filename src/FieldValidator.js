@@ -35,10 +35,6 @@ export default class FieldValidator {
 
         this.element = this.container.querySelector(this.selector)
 
-        this.promiseList = []
-
-        this.createPromiseList()
-
         this.bindEvents()
     }
 
@@ -63,15 +59,17 @@ export default class FieldValidator {
     }
 
     createPromiseList() {
+        let promiseList = []
         if(this.rules.length > 0) {
             for(let i = 0; i < this.rules.length; i++) {
                 let rule = this.rules[i]
-                this.promiseList.push(
+                promiseList.push(
                     this.createPromise(rule)
                 )
             }
         }
-        
+
+        return promiseList
     }
 
     createPromise(rule) {
@@ -125,7 +123,9 @@ export default class FieldValidator {
             value: this.element.value
         }
 
-        return Promise.all(this.promiseList).then((retList) => {
+        let promiseList = this.createPromiseList()
+
+        return Promise.all(promiseList).then((retList) => {
             // retList 为空，返回值为 true，表示验证通过，复合逻辑
             ret.status = retList.every((ret) => ret.status)
             ret.data = retList
@@ -135,6 +135,42 @@ export default class FieldValidator {
     }
 
     _validateOne() {
+        let promiseList = this.createPromiseList()
+        let promiseCreatorList = this.promiseCreatorList(promiseList)
 
+        return utils.promiseSeq(promiseCreatorList)
+    }
+
+    promiseCreatorList(promiseList) {
+        let creators = []
+        let ret = {
+            element: this.element,
+            value: this.element.value,
+            status: false,
+            data: []
+        }
+
+        for(let i = 0; i < promiseList.length; i++) {
+            creators.push(
+                (data) => {
+                    // 忽略 promiseSeq 初始值 { status: true }
+                    if(data.rule) {
+                        ret.data.push(data)
+                    }
+
+                    if(!data.status) {
+                        return new Promise( (resolve) => resolve(ret) )
+                    } else {
+                        return promiseList[i].then((data) => {
+                            ret.data.push(data)
+                            ret.status = ret.data.every((ret) => ret.status)
+                            return ret
+                        })
+                    }
+                }
+            )
+        }
+
+        return creators
     }
 }

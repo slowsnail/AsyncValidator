@@ -16,14 +16,15 @@ utils.extend = function (target, source) {
  * 最后一个 then 返回验证过的规则的结果，包括验证通过和不通过的结果
  */
 utils.promiseSeq = function(promiseCreatorList) {
-    let ret = []
-    let promise = Promise.resovle()
-    promiseCreatorList.forEach(function(promiseCreator) {
-        promise = promise.then(function(data) {
-            
+    let promise = Promise.resolve({ status: true })
+
+    promiseCreatorList.forEach(function(creator) {
+        promise = promise.then(function(ret) {
+            return creator(ret)
         })
     })
 
+    return promise
 
 }
 
