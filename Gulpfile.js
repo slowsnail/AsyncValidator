@@ -12,12 +12,13 @@ let babelify = require("babelify")
 let buffer = require('vinyl-buffer')
 let uglify = require('gulp-uglifyjs')
 let source = require('vinyl-source-stream')
+let cleanCSS = require('gulp-clean-css')
 
 let config = require('./config')
 
 let baseDir = './'
-let srcDir = './src'
-let sassDir = './sass'
+let srcDir = './demo'
+let sassDir = './demo'
 let demoDir = './demo'
 
 let filePath = {
@@ -32,8 +33,8 @@ let demoWatch = {
 }
 
 let demoDestPath = {
-	js: './demo/js/',
-	css: './demo/css'
+	js: './demo/dist/js/',
+	css: './demo/dist/css'
 }
 
 gulp.task('demo:server', function() {
@@ -58,18 +59,19 @@ gulp.task('demo:server', function() {
 })
 
 gulp.task('css', function () {
-  return gulp.src(path.join('./sass/index.scss'))
+  return gulp.src(path.join('./demo/src/css/index.scss'))
     .pipe(sass().on('error', sass.logError))
     .pipe(rename({
 		suffix: '.min'
 	}))
+	.pipe(cleanCSS())
     .pipe(gulp.dest(demoDestPath.css))
     .pipe(reload({stream: true}))
 })
 
 
 gulp.task('build-demo-js', function() {
-	return browserify({entries: './src/index.js' , debug: true })
+	return browserify({entries: './demo/src/js/index.js' , debug: true })
 		.transform(babelify, {presets: ["es2015"]})
 		.bundle()
 		.on("error", function(err) {
@@ -80,7 +82,7 @@ gulp.task('build-demo-js', function() {
         })
 		.pipe(source('index.js'))
 		.pipe(buffer())
-		//.pipe(uglify())
+		.pipe(uglify())
 		.pipe(rename({
 			suffix: '.min'
 		}))
