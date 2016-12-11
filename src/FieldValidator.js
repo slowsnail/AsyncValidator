@@ -112,12 +112,13 @@ export default class FieldValidator {
     }
 
     _validateAll() {
-        return Promise.all(this.promiseList).then((retList) => {
-            console.log('retList: ', retList)
-            let ret = {
-                element: this.element
-            }
+        let ret = {
+            element: this.element,
+            value: this.element.value
+        }
 
+        return Promise.all(this.promiseList).then((retList) => {
+            // retList 为空，返回值为 true，表示验证通过，复合逻辑
             ret.status = retList.every((ret) => ret.status)
             ret.data = retList
 

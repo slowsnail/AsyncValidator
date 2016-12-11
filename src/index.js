@@ -148,7 +148,7 @@ class AsyncValidator {
 
     go() {
        this.form.validate().then((ret) => {
-          // console.log('async-ret: ', ret)
+          console.log('async-ret: ', ret)
        }).catch((err) => console.log(err))
     }
 }

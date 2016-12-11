@@ -19,8 +19,8 @@ export default class FormValidator {
     createPromiseList() {
         for (let i = 0; i < this.fields.length; i++) {
             let field = this.fields[i]
-            let subElement = this.formElement.querySelector(field.selector)
-            if(subElement) {
+            let fieldElement = this.formElement.querySelector(field.selector)
+            if(fieldElement) {
                 let fieldValidator = new FieldValidator( this.formElement, field, this.commonHandler )
                 this.promiseList.push(
                     fieldValidator.validate()
@@ -40,19 +40,15 @@ export default class FormValidator {
     _validateAll() {
         // 验证结果，status 初始值为 false，标示未验证通过
         let ret = {
-            status: false
+            element: this.formElement,
+            status: false,
         }
 
         return Promise.all(this.promiseList).then(function(retList) {
-            console.log(retList)
+            ret.status = retList.every((ret) => ret.status)
+            ret.data = retList
 
-            // ret.status = retList.every((ret) => ret.status)
-            // ret.data = retList
-
-            // console.log('form-ret: ', ret)
-            // return ret
-
-            return retList
+            return ret
         })
     }
 
