@@ -10,23 +10,22 @@ export default class FormValidator {
         this.commonHandler = (options && options.commonHandler) || EmptyFunc
 
         if(!this.formElement) throw 'FormValidator - no formElement'
-
-        this.promiseList = []
-
-        this.createPromiseList()
     }
 
     createPromiseList() {
+        let promiseList = []
         for (let i = 0; i < this.fields.length; i++) {
             let field = this.fields[i]
             let fieldElement = this.formElement.querySelector(field.selector)
             if(fieldElement) {
                 let fieldValidator = new FieldValidator( this.formElement, field, this.commonHandler )
-                this.promiseList.push(
+                promiseList.push(
                     fieldValidator.validate()
                 )
             }
         }
+
+        return promiseList
     }
 
     validate() {
@@ -43,8 +42,9 @@ export default class FormValidator {
             element: this.formElement,
             status: false,
         }
+        let promiseList = this.createPromiseList()
 
-        return Promise.all(this.promiseList).then(function(retList) {
+        return Promise.all(promiseList).then(function(retList) {
             ret.status = retList.every((ret) => ret.status)
             ret.data = retList
 

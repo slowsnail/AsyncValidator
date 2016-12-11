@@ -156,14 +156,21 @@ class AsyncValidator {
 var validator = new AsyncValidator('.js-async-form', [{
     selector: '.js-username',
     rules: ['required','min_length:2'],
-    events: ['blur', 'keyup']
+    events: ['blur', 'keyup'],
+    handler: function(result) {
+        if(!result.status) {
+            result.element.style.color = 'red'
+        } else {
+            result.element.style.color = 'blue'
+        }
+    }
 }, {
     selector: '.js-idcard',
-    rules: ['idcard', 'test'],
+    rules: ['idcard'],
     events: ['blur', 'keyup']
 }, {
     selector: '.js-period',
-    rules: ['min_length:2'],
+    rules: ['min_length:2', 'max_length:5'],
     events: ['keyup']
 }], {
     commonHandler: function(result) {
@@ -171,6 +178,8 @@ var validator = new AsyncValidator('.js-async-form', [{
         console.log('common-handler: ', result)
         if(!result.status) {
             result.element.style.color = 'red'
+        } else {
+            result.element.style.color = 'green'
         }
     }
 })

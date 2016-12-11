@@ -42,20 +42,22 @@ export default class FieldValidator {
         if(this.events.length > 0) {
             for(let i = 0; i < this.events.length; i++) {
                 let event = this.events[i]
-                this.element.addEventListener(event, () => this.retHandler(), false)
+                this.element.addEventListener(event, () => {
+                    this.validate().then((ret) => {
+                        this.retHandler(ret)
+                    })
+                }, false)
             }
         }
     }
 
-    retHandler() {
+    retHandler(ret) {
         // handler 优先级高于 commonHandler 
-        this.validate().then((ret) => {
-            if(typeof this.handler === 'function') {
-                this.handler(ret)
-            } else {
-                this.commonHandler(ret)
-            }
-        })
+        if(typeof this.handler === 'function') {
+            this.handler(ret)
+        } else {
+            this.commonHandler(ret)
+        }
     }
 
     createPromiseList() {
@@ -130,6 +132,8 @@ export default class FieldValidator {
             ret.status = retList.every((ret) => ret.status)
             ret.data = retList
 
+            this.retHandler(ret)
+
             return ret
         })    
     }
@@ -159,11 +163,18 @@ export default class FieldValidator {
                     }
 
                     if(!data.status) {
+                        // 验证结果处理回调
+                        this.retHandler(ret)
+
                         return new Promise( (resolve) => resolve(ret) )
                     } else {
                         return promiseList[i].then((data) => {
                             ret.data.push(data)
                             ret.status = ret.data.every((ret) => ret.status)
+
+                            // 验证结果处理回调
+                            this.retHandler(ret)
+
                             return ret
                         })
                     }
