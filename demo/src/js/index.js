@@ -31,4 +31,6 @@ var validator = new AsyncValidator('.js-async-form', [{
     }
 })
 
-validator.go()
+validator.validate().then(function(ret) {
+    console.log('asyncValidator-ret: ', ret)
+})

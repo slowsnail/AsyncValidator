@@ -146,9 +146,7 @@ export default class AsyncValidator {
         this.addPattern = v.addPattern
     }
 
-    go() {
-       this.form.validate().then((ret) => {
-          console.log('async-ret: ', ret)
-       }).catch((err) => console.log(err))
+    validate() {
+       return this.form.validate().then( (ret) => ret ).catch((err) => err )
     }
 }

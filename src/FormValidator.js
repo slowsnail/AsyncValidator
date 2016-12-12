@@ -14,17 +14,17 @@ export default class FormValidator {
     }
 
     createFieldList() {
-        let promiseList = []
+        let fieldList = []
         for (let i = 0; i < this.fields.length; i++) {
             let field = this.fields[i]
             let fieldElement = this.formElement.querySelector(field.selector)
             if(fieldElement) {
                 let fieldValidator = new FieldValidator( this.formElement, field, this.commonHandler )
-                promiseList.push( fieldValidator )
+                fieldList.push( fieldValidator )
             }
         }
 
-        return promiseList
+        return fieldList
     }
 
     validate() {
